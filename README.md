@@ -1,4 +1,5 @@
 https://doi.org/10.5281/zenodo.18790129
+https://orcid.org/my-orcid?orcid=0009-0004-1872-1153
 # GRA Physical AI
 
 **GRA Physical AI** — это открытая платформа для создания согласованных, безопасных и этичных физических ИИ‑агентов (роботов) на основе **многоуровневой архитектуры GRA Мета‑обнулёнки**.  
@@ -64,3 +65,4 @@ git clone https://github.com/qqewq/gra-physical-ai.git
 cd gra-physical-ai
 
 pip install -r requirements.txt
+
