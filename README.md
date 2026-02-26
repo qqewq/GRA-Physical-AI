@@ -1,3 +1,4 @@
+https://doi.org/10.5281/zenodo.18790129
 # GRA Physical AI
 
 **GRA Physical AI** — это открытая платформа для создания согласованных, безопасных и этичных физических ИИ‑агентов (роботов) на основе **многоуровневой архитектуры GRA Мета‑обнулёнки**.  
@@ -61,4 +62,5 @@ Each level computes its own **foam** \(\Phi^{(l)}\), and the total foam triggers
 ```bash
 git clone https://github.com/qqewq/gra-physical-ai.git
 cd gra-physical-ai
+
 pip install -r requirements.txt
