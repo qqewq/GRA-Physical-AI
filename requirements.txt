@@ -1,0 +1,49 @@
+# Core dependencies
+numpy>=1.24.0
+scipy>=1.10.0
+matplotlib>=3.7.0
+pyyaml>=6.0
+
+# Machine learning / deep learning
+torch>=2.0.0
+torchvision>=0.15.0
+tensorboard>=2.13.0
+transformers>=4.30.0  # for Hugging Face models (GR00T, Cosmos)
+accelerate>=0.20.0
+huggingface-hub>=0.16.0
+
+# Computer vision / image processing
+opencv-python>=4.8.0
+pillow>=10.0.0
+
+# Simulation environments (optional, for testing without Isaac)
+gym>=0.26.0
+pybullet>=3.2.5  # lightweight simulator for prototyping
+mujoco>=2.3.0    # optional, if using MuJoCo
+
+# ROS 2 integration (if needed)
+# ros2 dependencies are usually managed via colcon/ament, not pip
+# but for Python nodes:
+# rclpy is installed with ROS 2, not via pip
+
+# Development tools
+pytest>=7.4.0
+black>=23.0.0
+isort>=5.12.0
+mypy>=1.5.0
+pre-commit>=3.3.0
+
+# Utilities
+tqdm>=4.65.0
+hydra-core>=1.3.0  # for configuration management
+omegaconf>=2.3.0
+wandb>=0.15.0      # optional experiment tracking
+
+# For working with datasets / logging
+h5py>=3.8.0
+pandas>=2.0.0
+
+# Note: NVIDIA Isaac Lab / Isaac Sim are not installed via pip.
+# Please follow the official installation guide:
+# https://isaac-sim.github.io/IsaacLab
+# https://docs.omniverse.nvidia.com/isaacsim/latest/installation.html

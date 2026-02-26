@@ -1,0 +1,471 @@
+```latex
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+
+% Theme settings
+\usetheme{Madrid}
+\usecolortheme{whale}
+\setbeamertemplate{navigation symbols}{}
+
+% Custom colors
+\definecolor{graph}{RGB}{52, 152, 219}
+\definecolor{ethics}{RGB}{231, 76, 60}
+\definecolor{safety}{RGB}{46, 204, 113}
+\definecolor{background}{RGB}{236, 240, 241}
+
+% Title page
+\title[GRA Physical AI]{\textbf{GRA Physical AI: \\Making Robots Consistent, Safe, and Ethical}}
+\subtitle{From Chatbots to Embodied Intelligence}
+\author{GRA Team}
+\institute{}
+\date{}
+
+\begin{document}
+
+%===============================================================================
+% Title Slide
+%===============================================================================
+
+\begin{frame}
+\titlepage
+
+\centering
+\includegraphics[width=0.3\textwidth]{figures/logo.png}\\
+\vspace{0.5cm}
+{\small \url{https://graphysical.ai}}
+\end{frame}
+
+%===============================================================================
+% Problem Slide
+%===============================================================================
+
+\begin{frame}{The Problem: Robots Are Inconsistent and Potentially Dangerous}
+
+\begin{columns}[T]
+\column{0.5\textwidth}
+\textbf{Physical AI systems have conflicting levels:}
+\begin{itemize}
+    \item<2-> \textbf{G0 (Motors)}: Fast, precise movement
+    \item<3-> \textbf{G1 (Perception)}: Accurate sensing
+    \item<4-> \textbf{G2 (Planning)}: Optimal trajectories
+    \item<5-> \textbf{G3 (Ethics)}: Safety constraints
+\end{itemize}
+
+\vspace{0.5cm}
+\onslide<6->{\textbf{These levels conflict:}
+\begin{itemize}
+    \item Speed vs. Safety
+    \item Efficiency vs. Ethics
+    \item Commands vs. Values
+\end{itemize}}
+
+\column{0.5\textwidth}
+\onslide<1>{
+\begin{tikzpicture}[node distance=1.5cm, auto]
+    \node[draw, fill=graph!20, rectangle, rounded corners] (g0) {G0: Motors};
+    \node[draw, fill=graph!40, rectangle, rounded corners, below of=g0] (g1) {G1: Perception};
+    \node[draw, fill=graph!60, rectangle, rounded corners, below of=g1] (g2) {G2: Planning};
+    \node[draw, fill=ethics!40, rectangle, rounded corners, below of=g2] (g3) {G3: Ethics};
+    
+    \draw[<->, thick, red] (g0) -- (g1);
+    \draw[<->, thick, red] (g1) -- (g2);
+    \draw[<->, thick, red] (g2) -- (g3);
+\end{tikzpicture}
+}
+\end{columns}
+
+\vspace{1cm}
+\onslide<7->{\centering \textbf{Current solutions:} Ad-hoc tuning, hard-coded priorities, external safety filters}
+\end{frame}
+
+%===============================================================================
+% Solution Slide
+%===============================================================================
+
+\begin{frame}{GRA Meta-zeroing: A Mathematical Framework for Consistency}
+
+\begin{block}{Core Idea}
+Recursively eliminate conflicts between all levels using \textbf{foam} – a measure of inconsistency.
+\end{block}
+
+\vspace{0.5cm}
+
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Key Concepts:}
+\begin{itemize}
+    \item \textbf{Multi-indices}: $(robot, motor, planner, ethics)$
+    \item \textbf{Goals as Projectors}: $P_{G_l}|\psi\rangle = |\psi\rangle$
+    \item \textbf{Foam}: $\Phi^{(l)} = \sum_{a\neq b} |\langle\psi_a|P_{G_l}|\psi_b\rangle|^2$
+    \item \textbf{Zeroing Theorem}: $\exists \Psi^*$ s.t. $\Phi^{(l)}=0\;\forall l$
+\end{itemize}
+
+\column{0.55\textwidth}
+\begin{align*}
+\Phi^{(l)} &= \sum_{a\neq b} |\langle\psi_a|P_{G_l}|\psi_b\rangle|^2 \\[0.3cm]
+J_{\text{total}} &= \sum_{l}\Lambda_l\sum_{\dim(a)=l} J^{(l)}(\psi_a) \\[0.3cm]
+J^{(l)} &= \sum_{b\prec a} J^{(l-1)}(\psi_b) + \Phi^{(l)}
+\end{align*}
+\end{columns}
+
+\vspace{0.5cm}
+\centering
+\onslide<2>{\textbf{Theorem:} Under commutativity and consistency, full zeroing is achievable.}
+\end{frame}
+
+%===============================================================================
+% Architecture Slide
+%===============================================================================
+
+\begin{frame}{Architecture: The "Code of Friends" Stack}
+
+\begin{tikzpicture}[node distance=1.2cm, auto, scale=0.9, every node/.style={scale=0.9}]
+    % Define layers
+    \node[draw, fill=ethics!30, rectangle, rounded corners, minimum width=10cm, minimum height=0.8cm] (g3) {\textbf{G3: Ethics Layer} (Code of Friends)};
+    
+    \node[draw, fill=safety!30, rectangle, rounded corners, minimum width=10cm, minimum height=0.8cm, below of=g3] (g2) {\textbf{G2: Safety Layer} (Collision avoidance, force limits)};
+    
+    \node[draw, fill=graph!30, rectangle, rounded corners, minimum width=10cm, minimum height=0.8cm, below of=g2] (g1) {\textbf{G1: Task Layer} (Move, grasp, interact)};
+    
+    \node[draw, fill=graph!30, rectangle, rounded corners, minimum width=10cm, minimum height=0.8cm, below of=g1] (g0) {\textbf{G0: Motor Layer} (Joint control)};
+    
+    \node[draw, fill=gray!20, rectangle, rounded corners, minimum width=10cm, minimum height=0.8cm, below of=g0] (hardware) {\textbf{Hardware} (Sensors, actuators)};
+    
+    % Connect
+    \draw[<->, thick] (g3) -- (g2);
+    \draw[<->, thick] (g2) -- (g1);
+    \draw[<->, thick] (g1) -- (g0);
+    \draw[<->, thick] (g0) -- (hardware);
+    
+    % Add annotations
+    \node[right of=g3, xshift=3cm] (ethics-note) {\small \begin{tabular}{l} $\bullet$ Do no harm\\ $\bullet$ Anti-slavery\\ $\bullet$ Transparency \end{tabular}};
+    
+    \node[right of=g2, xshift=3cm] (safety-note) {\small \begin{tabular}{l} $\bullet$ Force limits\\ $\bullet$ Collision avoidance\\ $\bullet$ Emergency stop \end{tabular}};
+    
+    \node[left of=g0, xshift=-3cm] (motor-note) {\small \begin{tabular}{l} $\bullet$ Torque control\\ $\bullet$ Position tracking\\ $\bullet$ Velocity limits \end{tabular}};
+\end{tikzpicture}
+
+\vspace{0.5cm}
+\centering
+\textbf{The "Code of Friends":} Inviolable principles that cannot be zeroed away.
+\end{frame}
+
+%===============================================================================
+% Applications Slide
+%===============================================================================
+
+\begin{frame}{Applications: From Research to Industry}
+
+\begin{columns}[t]
+\column{0.33\textwidth}
+\centering
+\textbf{Industrial Robotics}
+\includegraphics[width=0.8\textwidth]{figures/industrial.jpg}\\
+\small
+\begin{itemize}
+    \item Safe human-robot collaboration
+    \item Adaptive to wear
+    \item ISO compliance
+\end{itemize}
+
+\column{0.33\textwidth}
+\centering
+\textbf{Healthcare}
+\includegraphics[width=0.8\textwidth]{figures/healthcare.jpg}\\
+\small
+\begin{itemize}
+    \item Assistive robots
+    \item Patient safety
+    \item Ethical constraints
+\end{itemize}
+
+\column{0.33\textwidth}
+\centering
+\textbf{Autonomous Vehicles}
+\includegraphics[width=0.8\textwidth]{figures/av.jpg}\\
+\small
+\begin{itemize}
+    \item Perception consistency
+    \item Safety verification
+    \item Regulatory approval
+\end{itemize}
+\end{columns}
+
+\vspace{0.5cm}
+\centering
+\textbf{Market:} \$108B robotics software market by 2030
+\end{frame}
+
+%===============================================================================
+% Competitive Advantage Slide
+%===============================================================================
+
+\begin{frame}{Competitive Advantage}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Feature} & \textbf{GRA} & \textbf{Formal Methods} & \textbf{RL} & \textbf{Manual Tuning} \\
+\hline
+Formal guarantees & \cellcolor{green!30}Yes & \cellcolor{green!30}Yes & No & No \\
+\hline
+Scalable & \cellcolor{green!30}Yes & No & \cellcolor{green!30}Yes & No \\
+\hline
+Online adaptation & \cellcolor{green!30}Yes & No & \cellcolor{green!30}Yes & No \\
+\hline
+Built-in ethics & \cellcolor{green!30}Yes & No & No & No \\
+\hline
+Easy integration & \cellcolor{green!30}Yes & No & No & No \\
+\hline
+Cost & Low & High & Medium & High \\
+\hline
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+\centering
+\textbf{Unique Value Proposition:} \\"The only platform providing mathematical guarantees of consistency across all levels, with built-in ethics."
+\end{frame}
+
+%===============================================================================
+% Business Model Slide
+%===============================================================================
+
+\begin{frame}{Business Model \& Go-to-Market}
+
+\begin{columns}[t]
+\column{0.5\textwidth}
+\textbf{Products:}
+\begin{itemize}
+    \item \textbf{GRA Engine}: Core library (per-robot license)
+    \item \textbf{GRA Cloud}: Fleet monitoring (subscription)
+    \item \textbf{Consulting}: Custom integration
+    \item \textbf{Training}: Engineer certification
+\end{itemize}
+
+\column{0.5\textwidth}
+\textbf{Go-to-Market:}
+\begin{enumerate}
+    \item Research partnerships (universities)
+    \item System integrators (Rockwell, Siemens)
+    \item OEM licensing (Fanuc, ABB, UR)
+    \item Enterprise fleets (Amazon, DHL)
+\end{enumerate}
+\end{columns}
+
+\vspace{0.5cm}
+\begin{block}{Pricing Model}
+\begin{tabular}{l|c}
+\textbf{Tier} & \textbf{Price} \\
+\hline
+Research (Open Source) & Free \\
+Professional & \$5K-\$20K/robot \\
+Enterprise & \$100K-\$500K/year \\
+\end{tabular}
+\end{block}
+\end{frame}
+
+%===============================================================================
+% Traction Slide
+%===============================================================================
+
+\begin{frame}{Traction \& Roadmap}
+
+\begin{columns}[t]
+\column{0.45\textwidth}
+\textbf{Current Status:}
+\begin{itemize}
+    \item ✓ Mathematical foundations proven
+    \item ✓ PyBullet prototype (mobile robot)
+    \item ✓ ROS 2 integration
+    \item ✓ G0-G3 layers implemented
+    \item ⚙️ Isaac Sim integration (Q3 2025)
+\end{itemize}
+
+\column{0.55\textwidth}
+\textbf{Roadmap:}
+\begin{tikzpicture}[node distance=0.8cm]
+    \node[draw, fill=blue!20, rectangle, minimum width=4cm, minimum height=0.6cm] (q2) {Q2 2025: Alpha release};
+    \node[draw, fill=blue!20, rectangle, minimum width=4cm, minimum height=0.6cm, below of=q2] (q3) {Q3 2025: Research pilots};
+    \node[draw, fill=blue!20, rectangle, minimum width=4cm, minimum height=0.6cm, below of=q3] (q4) {Q4 2025: Beta with partners};
+    \node[draw, fill=green!20, rectangle, minimum width=4cm, minimum height=0.6cm, below of=q4] (q1) {Q1 2026: Commercial launch};
+    
+    \draw[->] (q2) -- (q3);
+    \draw[->] (q3) -- (q4);
+    \draw[->] (q4) -- (q1);
+\end{tikzpicture}
+\end{columns}
+
+\vspace{0.5cm}
+\textbf{Current Partners:}
+\begin{itemize}
+    \item Stanford AI Lab (research collaboration)
+    \item Universal Robots (integration pilot)
+    \item Diligent Robotics (healthcare pilot)
+\end{itemize}
+\end{frame}
+
+%===============================================================================
+% Team Slide
+%===============================================================================
+
+\begin{frame}{Team}
+
+\begin{columns}[t]
+\column{0.5\textwidth}
+\centering
+\textbf{Dr. Alexey Volkov}\\
+\textit{Founder \/ Chief Scientist}\\
+\begin{itemize}
+    \item PhD in Applied Mathematics, Moscow State
+    \item 15 years in robotics and control theory
+    \item Former lead at Skolkovo Robotics
+    \item Creator of GRA Meta-zeroing theory
+\end{itemize}
+
+\column{0.5\textwidth}
+\centering
+\textbf{Elena Petrova}\\
+\textit{Head of Engineering}\\
+\begin{itemize}
+    \item MSc in Computer Science, ETH Zurich
+    \item Former robotics engineer at ANYbotics
+    \item ROS 2 expert, PyBullet contributor
+    \item Led development of ANYmal safety stack
+\end{itemize}
+\end{columns}
+
+\vspace{0.5cm}
+\begin{columns}[t]
+\column{0.5\textwidth}
+\centering
+\textbf{Dr. Michael Chen}\\
+\textit{ML Research Scientist}\\
+\begin{itemize}
+    \item PhD in ML, Carnegie Mellon
+    \item Former research scientist at NVIDIA
+    \item GR00T team member (2023-2024)
+    \item Expert in robot foundation models
+\end{itemize}
+
+\column{0.5\textwidth}
+\centering
+\textbf{Dr. Sarah Johnson}\\
+\textit{Ethics Advisor}\\
+\begin{itemize}
+    \item PhD in Philosophy, Oxford
+    \item Professor of AI Ethics, Stanford
+    \item Member of IEEE Ethically Aligned Design
+    \item Author of "Code of Friends" framework
+\end{itemize}
+\end{columns}
+\end{frame}
+
+%===============================================================================
+=%
+% Ask Slide
+%===============================================================================
+
+\begin{frame}{Join Us!}
+
+\begin{center}
+\Large \textbf{We're building the safety layer for physical AI}
+\end{center}
+
+\vspace{1cm}
+
+\begin{columns}[t]
+\column{0.33\textwidth}
+\centering
+\textbf{Seeking}\\
+\large \$2.5M\\
+Seed Round
+
+\column{0.33\textwidth}
+\centering
+\textbf{Use of Funds}\\
+\begin{tabular}{l}
+Engineering (5 hires)\\
+Business dev (2 hires)\\
+Hardware for testing\\
+Patent filing
+\end{tabular}
+
+\column{0.33\textwidth}
+\centering
+\textbf{Contact}\\
+\url{info@graphysical.ai}\\
+\url{https://graphysical.ai}\\
+@graphysicalai
+\end{columns}
+
+\vspace{1cm}
+\centering
+\textit{“The most profound technologies are those that disappear.} \\
+\textit{We make the internal consistency of AI disappear.”}
+\end{frame}
+
+%===============================================================================
+% Appendix (Extra Slides)
+%===============================================================================
+
+\begin{frame}{Appendix: Mathematical Formulation}
+
+\textbf{Foam:}
+$$\Phi^{(l)}(\Psi^{(l)}, G_l) = \sum_{\substack{a\neq b \\ \dim(a)=\dim(b)=l}} |\langle \Psi^{(a)} | \mathcal{P}_{G_l} | \Psi^{(b)} \rangle|^2$$
+
+\textbf{Total Functional:}
+$$J_{\text{total}}(\mathbf{\Psi}) = \sum_{l=0}^K \Lambda_l \sum_{\dim(a)=l} J^{(l)}(\Psi^{(a)})$$
+
+\textbf{Recursive Definition:}
+$$J^{(0)}(\Psi^{(a)}) = J_{\text{loc}}(\Psi^{(a)}; G_0^{(a)})$$
+$$J^{(l)}(\Psi^{(a)}) = \sum_{b\prec a} J^{(l-1)}(\Psi^{(b)}) + \Phi^{(l)}(\Psi^{(a)}, G_l^{(a)})$$
+
+\textbf{Zeroing Theorem:} If projectors commute and hierarchy is consistent, $\exists \Psi^*$ with $\Phi^{(l)}=0$ for all $l$.
+\end{frame}
+
+\begin{frame}{Appendix: Integration with Existing Stacks}
+
+\begin{center}
+\begin{tikzpicture}[node distance=1.5cm]
+    \node[draw, fill=gray!20, rectangle, rounded corners] (gra) {GRA Core};
+    
+    \node[draw, fill=blue!20, rectangle, rounded corners, above left of=gra, xshift=-2cm] (ros2) {ROS 2 Bridge};
+    \node[draw, fill=blue!20, rectangle, rounded corners, above right of=gra, xshift=2cm] (isaac) {Isaac Sim Bridge};
+    
+    \node[draw, fill=green!20, rectangle, rounded corners, below left of=gra, xshift=-2cm] (pybullet) {PyBullet};
+    \node[draw, fill=green!20, rectangle, rounded corners, below right of=gra, xshift=2cm] (mujoco) {MuJoCo};
+    
+    \node[draw, fill=orange!20, rectangle, rounded corners, below of=gra, yshift=-1cm] (gr00t) {GR00T Agent};
+    
+    \draw[<->] (gra) -- (ros2);
+    \draw[<->] (gra) -- (isaac);
+    \draw[<->] (gra) -- (pybullet);
+    \draw[<->] (gra) -- (mujoco);
+    \draw[<->] (gra) -- (gr00t);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Supported Integrations:}
+\begin{itemize}
+    \item ROS 2 (Humble, Iron)
+    \item NVIDIA Isaac Sim / Lab
+    \item PyBullet, MuJoCo
+    \item GR00T foundation models
+    \item OpenAI Gym
+\end{itemize}
+\end{frame}
+
+\end{document}
+```

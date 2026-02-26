@@ -1,0 +1,78 @@
+gra-physical-ai/
+├── .github/                       # Шаблоны для GitHub (issues, pull requests)
+│   ├── ISSUE_TEMPLATE/
+│   └── PULL_REQUEST_TEMPLATE.md
+├── docs/                           # Вся документация
+│   ├── README.md                    # Главная страница документации
+│   ├── theory/                       # Математические основы GRA
+│   │   ├── gra_basics.md              # Введение в GRA Мета‑обнулёнку (с формулами)
+│   │   ├── multiverse.md               # Мультиверс, иерархии, мультииндексы
+│   │   ├── theorems.md                 # Условия обнуления, доказательства
+│   │   └── physical_ai.md               # Адаптация для физического ИИ (связь со стеком NVIDIA)
+│   ├── architecture/                  # Описание программной архитектуры
+│   │   ├── layers.md                    # Уровни G0, G1, G2... и их реализация
+│   │   ├── projections.md                # Проекторы, цели, пена
+│   │   └── algorithm.md                  # Рекурсивный алгоритм обнуления
+│   ├── integration/                    # Интеграция с конкретными платформами
+│   │   ├── nvidia_isaac.md               # Как подключиться к Isaac Lab / GR00T
+│   │   ├── ros2.md                        # Интеграция с ROS 2
+│   │   └── simulation.md                  # Настройка симуляторов (PyBullet, MuJoCo)
+│   ├── examples/                        # Примеры использования
+│   │   ├── mobile_robot.md                # Мобильный робот с двумя уровнями GRA
+│   │   ├── humanoid_safety.md              # Гуманоид с этическим слоем
+│   │   └── multi_agent_coordination.md     # Координация нескольких роботов
+│   └── business/                        # Бизнес‑материалы (для партнёров и инвесторов)
+│       ├── pitch_deck.pdf                 # Презентация (3-5 слайдов)
+│       ├── one_pager.md                    # Одностраничное описание продукта
+│       ├── market_research.md              # Исследование рынка (конкуренты, сегменты)
+│       └── target_companies.md             # Список потенциальных клиентов/партнёров
+├── src/                               # Исходный код
+│   ├── core/                           # Ядро GRA
+│   │   ├── __init__.py
+│   │   ├── multiverse.py                 # Классы для мультииндексов и пространств
+│   │   ├── projector.py                   # Базовый класс проектора
+│   │   ├── foam.py                        # Вычисление пены Φ
+│   │   └── nullification.py                # Алгоритмы обнуления
+│   ├── agents/                          # Агенты (политики)
+│   │   ├── __init__.py
+│   │   ├── base_agent.py                  # Базовый класс для всех агентов
+│   │   ├── gr00t_agent.py                  # Обёртка для NVIDIA GR00T
+│   │   ├── llm_agent.py                    # Для языковых моделей (если нужно)
+│   │   └── rl_agent.py                     # Для RL‑политик
+│   ├── envs/                            # Интерфейсы к средам
+│   │   ├── __init__.py
+│   │   ├── isaac_wrapper.py                # Обёртка над Isaac Lab / Isaac Lab‑Arena
+│   │   ├── pybullet_wrapper.py              # Для быстрого тестирования
+│   │   └── ros2_bridge.py                   # Мост к ROS 2
+│   ├── layers/                           # Готовые GRA‑слои
+│   │   ├── __init__.py
+│   │   ├── task_layer.py                   # Уровень G1 (выполнение задачи)
+│   │   ├── safety_layer.py                  # Уровень G2 (безопасность)
+│   │   ├── ethics_layer.py                  # Уровень G3 (этические ограничения)
+│   │   └── human_feedback.py                 # Обратная связь от человека
+│   ├── training/                         # Скрипты обучения и обнуления
+│   │   ├── train_gra_safety.py              # Главный цикл обучения с GRA
+│   │   ├── collect_demos.py                  # Сбор демонстраций для Mimic
+│   │   └── finetune_policy.py                # Дообучение политики (GR00T‑Mimic)
+│   └── utils/                            # Вспомогательные инструменты
+│       ├── logger.py                        # Логирование
+│       ├── visualization.py                  # Визуализация траекторий и пены
+│       └── config.py                         # Работа с конфигами
+├── notebooks/                          # Jupyter‑ноутбуки для демо и экспериментов
+│   ├── gra_intro.ipynb                   # Введение в GRA на простых примерах
+│   ├── isaac_integration.ipynb            # Демо интеграции с Isaac Lab
+│   └── foam_analysis.ipynb                 # Анализ пены на логах
+├── tests/                               # Тесты
+│   ├── test_core.py
+│   ├── test_layers.py
+│   └── test_integration.py
+├── scripts/                             # Вспомогательные скрипты
+│   ├── setup_env.sh                        # Установка зависимостей
+│   └── run_demo.sh                          # Запуск демо
+├── .gitignore
+├── LICENSE                              # Рекомендую MIT или Apache 2.0
+├── README.md                             # Главный README (что это, как начать)
+├── CONTRIBUTING.md                       # Как участвовать
+├── CODE_OF_CONDUCT.md                     # Кодекс поведения (важно для open source)
+├── requirements.txt                       # Базовые зависимости
+└── setup.py                               # Установка пакета (опционально)
